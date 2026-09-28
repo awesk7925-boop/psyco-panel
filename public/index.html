@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PSYCO PANEL - Login</title>
+    <style>
+        * { margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI',sans-serif; }
+        body {
+            background: linear-gradient(135deg,#ff9a9e 0%,#fad0c4 50%,#a1c4fd 100%);
+            min-height:100vh; display:flex; align-items:center; justify-content:center; padding:20px;
+        }
+        .box {
+            background:rgba(255,255,255,0.97); border-radius:20px; padding:40px 30px;
+            width:100%; max-width:400px; box-shadow:0 20px 60px rgba(0,0,0,0.2);
+        }
+        h1 { text-align:center; color:#333; font-size:26px; letter-spacing:3px; margin-bottom:8px; }
+        .sub { text-align:center; color:#888; margin-bottom:30px; font-size:13px; }
+        input {
+            width:100%; padding:14px; margin-bottom:15px; border:2px solid #eee;
+            border-radius:10px; font-size:15px; outline:none;
+        }
+        input:focus { border-color:#ff9a9e; }
+        button {
+            width:100%; padding:14px; background:linear-gradient(135deg,#ff9a9e,#a1c4fd);
+            color:white; border:none; border-radius:10px; font-size:16px; font-weight:bold;
+            cursor:pointer;
+        }
+        .err { color:#e74c3c; text-align:center; margin-top:15px; font-size:13px; }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <h1>PSYCO PANEL</h1>
+        <p class="sub">Key Management System</p>
+        <input type="text" id="u" placeholder="Username" autocomplete="off">
+        <input type="password" id="p" placeholder="Password">
+        <button onclick="login()">LOGIN</button>
+        <div class="err" id="e"></div>
+    </div>
+    <script>
+        async function login() {
+            const r = await fetch('/api/login', {
+                method:'POST', headers:{'Content-Type':'application/json'},
+                body: JSON.stringify({username:u.value, password:p.value})
+            });
+            const d = await r.json();
+            if (d.success) location.href = '/dashboard.html';
+            else e.textContent = d.error;
+        }
+    </script>
+</body>
+</html>
+
